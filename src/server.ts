@@ -1,8 +1,9 @@
 // src/server.ts
-import 'dotenv/config'
+
+import { env } from './config/env.js'
 import app from './app.js'
 
-const PORT = Number(process.env.PORT) || 3000
+const PORT = env.port || 3000
 
 app.listen(PORT, () => {
   console.log(`Server in ascolto sulla porta ${PORT}`)
