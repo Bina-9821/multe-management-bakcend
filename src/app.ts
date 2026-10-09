@@ -14,7 +14,10 @@ app.use(
     credentials: true,
   })
 )
+// AUTH ROUTES BETTER AUTH
 app.all('/api/auth/*splat', toNodeHandler(auth))
+
+// Global Middlewares
 app.use(express.json())
 
 // ROUTES
