@@ -4,6 +4,7 @@ import cors from 'cors'
 import playerProfileRoutes from './modules/player-profiles/player-profiles.route.js'
 import { toNodeHandler } from 'better-auth/node'
 import { auth } from './lib/auth.js'
+import { errorHandler, notFound } from './middleware/error-handler.js'
 
 const app = express()
 
@@ -23,4 +24,6 @@ app.use(express.json())
 // ROUTES
 app.use('/player', playerProfileRoutes)
 
+app.use(notFound)
+app.use(errorHandler)
 export default app
