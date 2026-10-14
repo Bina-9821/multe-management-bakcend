@@ -29,6 +29,13 @@
       "when": 1791374169942,
       "tag": "0003_normal_pepper_potts",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791972131040,
+      "tag": "0004_good_spot",
+      "breakpoints": true
     }
   ]
 }
