@@ -19,10 +19,18 @@ export const updatePlayerProfileSchema = createUpdateSchema(playerProfiles, {
     profileImage: true,
     firstName: true,
     lastName: true,
+    isActive: true,
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: 'Specifica almeno un campo da modificare',
   })
 
+export const listPlayersQuerySchema = z.object({
+  search: z.string().trim().min(1).optional(),
+  status: z.enum(['active', 'archived', 'all']).default('active'),
+  link: z.enum(['linked', 'unlinked', 'all']).default('all'),
+})
+
 export type CreatePlayerProfileInput = z.infer<typeof createPlayerProfileSchema>
 export type UpdatePlayerProfileInput = z.infer<typeof updatePlayerProfileSchema>
+export type ListPlayersQueryInput = z.infer<typeof listPlayersQuerySchema>

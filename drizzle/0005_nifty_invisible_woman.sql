@@ -1,0 +1,2 @@
+ALTER TABLE "player_profiles" ADD COLUMN "is_active" boolean DEFAULT true NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "player_name_idx" ON "player_profiles" USING btree ("first_name","last_name");
