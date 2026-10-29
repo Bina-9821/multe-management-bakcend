@@ -31,6 +31,11 @@ export const listPlayersQuerySchema = z.object({
   link: z.enum(['linked', 'unlinked', 'all']).default('all'),
 })
 
+export const linkPlayerProfileSchema = z.object({
+  userId: z.string().min(1),
+})
+
 export type CreatePlayerProfileInput = z.infer<typeof createPlayerProfileSchema>
 export type UpdatePlayerProfileInput = z.infer<typeof updatePlayerProfileSchema>
 export type ListPlayersQueryInput = z.infer<typeof listPlayersQuerySchema>
+export type LinkPlayerProfileInput = z.infer<typeof linkPlayerProfileSchema>

@@ -1,18 +1,12 @@
-// src/middlewares/require-auth.ts
 import type { Request, Response, NextFunction } from 'express'
 import { fromNodeHeaders } from 'better-auth/node'
 import { auth } from '../lib/auth.js'
+import { AppError } from '../lib/app-error.js'
 
-export const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
-  })
+export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+  const session = await auth.api.getSession({ headers: fromNodeHeaders(req.headers) })
+  if (!session) throw new AppError(401, 'Non autenticato')
 
-  if (!session) {
-    res.status(401).json({ message: 'Non autenticato' })
-    return
-  }
-
-  res.locals.session = session
+  res.locals.user = session.user
   next()
 }
