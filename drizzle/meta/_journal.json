@@ -36,6 +36,13 @@
       "when": 1791972131040,
       "tag": "0004_good_spot",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792406510588,
+      "tag": "0005_nifty_invisible_woman",
+      "breakpoints": true
     }
   ]
 }

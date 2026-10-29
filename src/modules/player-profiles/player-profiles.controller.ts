@@ -1,17 +1,53 @@
 import type { Request, Response } from 'express'
-import { db } from '../../db/index.js'
-import { playerProfiles } from '../../db/schema/player-profile.js'
-import { CreatePlayerProfileInput } from './player-profiles.schema.js'
+import {
+  CreatePlayerProfileInput,
+  LinkPlayerProfileInput,
+  ListPlayersQueryInput,
+  UpdatePlayerProfileInput,
+} from './player-profiles.schema.js'
+import {
+  createPlayerProfile,
+  getAllPlayerProfiles,
+  linkPlayerProfile,
+  unlinkPlayerProfile,
+  updatePlayerProfiles,
+} from './player-profiles.service.js'
+import { idParamSchema } from '../../lib/schemas.js'
+import { listPlayersQuerySchema } from './player-profiles.schema.js'
 
 export async function getAllPlayerProfilesController(req: Request, res: Response) {
-  const players = await db.select().from(playerProfiles)
+  const query: ListPlayersQueryInput = listPlayersQuerySchema.parse(req.query)
+  const players = await getAllPlayerProfiles(query)
 
-  res.json(players)
+  res.status(200).json(players)
 }
 
 export async function createPlayerProfileController(req: Request, res: Response) {
-  const { firstName, lastName }: CreatePlayerProfileInput = req.body
-  const [newPlayer] = await db.insert(playerProfiles).values({ firstName, lastName }).returning()
+  const input: CreatePlayerProfileInput = req.body
+  const newPlayer = await createPlayerProfile(input)
 
-  res.json(newPlayer)
+  res.status(201).json(newPlayer)
+}
+
+export async function updatePlayerProfileController(req: Request, res: Response) {
+  const { id } = idParamSchema.parse(req.params)
+  const input: UpdatePlayerProfileInput = req.body
+  const player = await updatePlayerProfiles(id, input)
+
+  res.status(200).json(player)
+}
+
+export async function linkPlayerProfileController(req: Request, res: Response) {
+  const { id } = idParamSchema.parse(req.params)
+  const input: LinkPlayerProfileInput = req.body
+  const profile = await linkPlayerProfile(id, input)
+
+  res.status(200).json(profile)
+}
+
+export async function unlinkPlayerProfileController(req: Request, res: Response) {
+  const { id } = idParamSchema.parse(req.params)
+  const profile = await unlinkPlayerProfile(id)
+
+  res.status(200).json(profile)
 }
